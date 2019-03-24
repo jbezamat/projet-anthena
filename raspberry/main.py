@@ -4,7 +4,7 @@
 import RPi.GPIO as GPIO                 #bibliothèque RPi.GPIO
 import time                             #bibliothèque time
 import requests 
-API_ENDPOINT = "192.168.43.111:8080/pilulier"
+API_ENDPOINT = "http://192.168.43.111:8080/pilulier"
 data = {'status':"alert"} 
 
 
@@ -61,7 +61,10 @@ if __name__ == '__main__':
                 GPIO.output(pin_ledv, GPIO.LOW)
                 GPIO.output(pin_ledr, GPIO.HIGH)
                 if bool_request == False:   
-                    r = requests.post(url = API_ENDPOINT, data = data) 
+                    try:
+                        r = requests.post(url = API_ENDPOINT, data = data) 
+                    except:
+                        print("request failed")
                     bool_request = True
             elif status == 2:
                 GPIO.output(pin_ledv, GPIO.LOW)
