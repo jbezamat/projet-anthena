@@ -29,13 +29,16 @@ pin_in = 6
 GPIO.setup(pin_ledv, GPIO.OUT)
 GPIO.setup(pin_ledr, GPIO.OUT)
 GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+merlin = False
 
 def button_callback(channel):
     global status
-    print("Button was pushed!")
-    status+=1
-    print(status)
-    time.sleep(0.5)
+    if (merlin==False):
+        print("Button was pushed!")
+        status+=1
+        print(status)
+        time.sleep(0.5)
+        merlin=True
 
 
 if __name__ == '__main__':
@@ -48,6 +51,9 @@ if __name__ == '__main__':
     try:                         
         while True :     
             time_t = time.time()
+            if GPIO.input(pin_in) == GPIO.LOW and merlin == True:
+                merlin = False
+
             if status == 0:
                 GPIO.output(pin_ledv, GPIO.LOW) 
                 GPIO.output(pin_ledr, GPIO.LOW) 
