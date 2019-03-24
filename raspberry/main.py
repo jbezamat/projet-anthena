@@ -29,7 +29,7 @@ pin_in = 6
 GPIO.setup(pin_ledv, GPIO.OUT)
 GPIO.setup(pin_ledr, GPIO.OUT)
 GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
-merlin = False
+merlin = True
 
 def button_callback(channel):
     global status, merlin
@@ -57,7 +57,7 @@ if __name__ == '__main__':
             if status == 0:
                 GPIO.output(pin_ledv, GPIO.LOW) 
                 GPIO.output(pin_ledr, GPIO.LOW) 
-            elif status == 1 and (time_t - begin_t) > 5 :
+            elif status == 1 and (time_t - begin_t) > 10 and (time_t - begin_t) <= 20:
                 GPIO.output(pin_ledv, GPIO.HIGH)
                 GPIO.output(pin_ledr, GPIO.LOW) 
             elif status == 1 and (time_t - begin_t) > 20:
@@ -66,7 +66,8 @@ if __name__ == '__main__':
             elif status == 2:
                 GPIO.output(pin_ledv, GPIO.LOW)
                 GPIO.output(pin_ledr, GPIO.LOW)  
-                status = 0                      
+                status = 0
+                merlin = True                      
                  
     except KeyboardInterrupt:
         print('interrupted!')
