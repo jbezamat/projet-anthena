@@ -1,6 +1,62 @@
-<div>
-  <div class="alert">
-    <div class="alert-news"></div>
+<div class="main">
+  <div class="background">
+    <div class="blue"></div>
+    <img class="image" src="../../assets/background.jpeg">
+  </div>
+  <div class="part1">
+    <div class="alert-news">
+      <div class="logo">
+        <img class="image" src="../../assets/warning.png">
+      </div>
+      <div class="alert-text">
+        <div class="text">"Heat Wave, be careful outside"</div>
+      </div>
+    </div>
     <div class="alert-button"></div>
+
+  </div>
+  <div class="part2">
+    <div class="home">
+      <div class="logo">
+        <img class="image" src="../../assets/house.svg">
+      </div>
+      <div class="separator"></div>
+      <div class="temperature">
+        <div class="text">{{this.temperature}} C</div>
+      </div>
+      <div class="separator"></div>
+      <div class="light">
+        <div class="text">{{this.light}} %</div>
+      </div>
+    </div>
+
+    <div class="weather">
+      <div class="logo">
+        <img class="image" src="../../assets/weather.png">
+      </div>
+      <div class="separator"></div>
+      <div class="temperature">
+        <div class="text">{{this.temperature_weather}} C</div>
+      </div>
+      <div class="separator"></div>
+      <div class="wind">
+        <div class="text">{{this.wind}}</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="part3">
+    <div class="pillule">
+      <div class="day" *ngFor="let day of this.days">
+        <div [ngClass]="{
+             'day-green': day.status == 'green',
+             'day-red': day.status == 'red',
+             'day-not': day.status == 'not'
+             }">
+          <div *ngIf="day.status == 'red' || day.status == 'green'" class="day-text">{{day.name}}</div>
+          <span *ngIf="day.status == 'not'">{{day.name}}</span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

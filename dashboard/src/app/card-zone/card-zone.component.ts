@@ -10,12 +10,12 @@ import {DataBasic} from '../models/data-basic.model'
 })
 export class CardZoneComponent implements OnInit {
 
-  dataTypes = ['temp', 'lum'];
-  data1 : DataBasic;
-  data2 : DataBasic;
-
-  datas : DataBasic[] = [];
-
+  temperature = 20;
+  temperature_weather = 22;
+  humidity;
+  light = 80;
+  wind = 35;
+  days = [{"name":"M","status":"not"}, {"name":"T","status":"not"}, {"name":"W","status":"not"}, {"name":"T","status":"not"}, {"name":"F","status":"not"}, {"name":"S","status":"not"}, {"name":"S","status":"red"}]
 
   constructor(private http : HttpClient) { }
 
@@ -34,11 +34,21 @@ export class CardZoneComponent implements OnInit {
   }
 
   getData() {
-    this.http.get('https://www.googleapis.com/books/v1/volumes?q=extreme%20programming')
+    this.http.get('http://192.168.43.111:8080/getData')
+    //this.http.get('http://192.168.56.203:8080/getData')
       .subscribe(res => {
           console.log(res);
-          this.datas = (res as any).items.map( res => new DataBasic(res));
-          console.log(this.datas);
+          this.temperature = (res as any).temperature;
+          this.humidity = (res as any).humidity;
+          this.light = (res as any).light;
+      });
+
+    this.http.get('http://192.168.43.111:8080/weather')
+   //this.http.get('http://192.168.56.203:8080/weather')
+      .subscribe(res =>{
+        console.log(res);
+        this.temperature_weather = (res as any).temp;
+        this.wind = (res as any).wind;
       });
   }
 }
