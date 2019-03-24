@@ -66,10 +66,9 @@
         <div [ngClass]="{
              'day-green': day.status == 'green',
              'day-red': day.status == 'red',
-             'day-not': day.status == 'not'
+             'day-blue': day.status == 'blue' || day.status == 'not'
              }">
-          <div *ngIf="day.status == 'red' || day.status == 'green'" class="day-text">{{day.name}}</div>
-          <span *ngIf="day.status == 'not'">{{day.name}}</span>
+          <div *ngIf="day.status == 'red' || day.status == 'green'|| day.status == 'blue' || day.status == 'not'" class="day-text">{{day.name}}</div>
         </div>
       </div>
     </div>

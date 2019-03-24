@@ -33,7 +33,8 @@ export class CardZoneComponent implements OnInit {
   refreshDataFast() {
     setInterval(()=>{
       console.log('refresh');
-      this.getData()
+      this.getData();
+      this.getDataPills();
     },2000);
   }
 
@@ -54,8 +55,18 @@ export class CardZoneComponent implements OnInit {
           this.humidity = (res as any).humidity;
           this.light = (res as any).light;
       });
+  }
 
-
+  getDataPills() {
+    this.http.get('http://192.168.43.111:8080/getStatus')
+    //this.http.get('http://192.168.43.80:8080/getStatus') // merlin
+    //this.http.get('http://192.168.56.203:8080/getStatus')
+      .subscribe(res => {
+        console.log((res as any).status);
+        if ( (res as any).status ){
+          this.days[this.days.length -1].status = (res as any).status;
+        }
+      });
   }
 
   getDataWeather() {
