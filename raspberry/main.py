@@ -55,6 +55,7 @@ if __name__ == '__main__':
                 merlin = False
 
             if status == 0:
+                begin_t = time.time() 
                 GPIO.output(pin_ledv, GPIO.LOW) 
                 GPIO.output(pin_ledr, GPIO.LOW) 
             elif status == 1 and (time_t - begin_t) > 10 and (time_t - begin_t) <= 20:
