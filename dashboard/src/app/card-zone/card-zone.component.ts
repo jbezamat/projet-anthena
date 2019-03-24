@@ -13,25 +13,35 @@ export class CardZoneComponent implements OnInit {
   temperature = 20;
   temperature_weather = 19;
   weather_text = "few clouds";
+  logo_weather_url = "../../assets/weather.png";
   humidity;
   light = 80;
   wind = 5;
-  days = [{"name":"M","status":"not"}, {"name":"T","status":"not"}, {"name":"W","status":"not"}, {"name":"T","status":"not"}, {"name":"F","status":"not"}, {"name":"S","status":"not"}, {"name":"S","status":"red"}]
+  days = [{"name":"M","status":"not"}, {"name":"T","status":"not"}, {"name":"W","status":"not"}, {"name":"T","status":"not"}, {"name":"F","status":"not"}, {"name":"S","status":"not"}, {"name":"S","status":"green"}]
 
   constructor(private http : HttpClient) { }
 
   ngOnInit() {
 
-
-    this.refreshData();
+    this.getData();
+    this.refreshDataFast();
+    this.refreshDataSlow();
+    this.getDataWeather();
 
   }
 
-  refreshData() {
+  refreshDataFast() {
     setInterval(()=>{
       console.log('refresh');
       this.getData()
     },2000);
+  }
+
+  refreshDataSlow() {
+    setInterval(()=>{
+      console.log('refresh slow');
+      this.getDataWeather()
+    },200000);
   }
 
   getData() {
@@ -45,15 +55,24 @@ export class CardZoneComponent implements OnInit {
           this.light = (res as any).light;
       });
 
+
+  }
+
+  getDataWeather() {
+
     this.http.get('http://192.168.43.111:8080/weather')
     //this.http.get('http://192.168.43.80:8080/weather') //tel merlin
-   //this.http.get('http://192.168.56.203:8080/weather')
+    //this.http.get('http://192.168.56.203:8080/weather')
       .subscribe(res =>{
         console.log(res);
         this.temperature_weather = Math.floor((res as any).temp);
         this.wind = Math.floor((res as any).wind);
         this.weather_text = (res as any).weather;
+        if ((res as any).weather == "clear sky"){
+          this.logo_weather_url = "../../assets/clear-sky.png";
+        }
       });
+
   }
 
   clickAlert() {

@@ -40,7 +40,7 @@
 
     <div class="weather">
       <div class="logo">
-        <img class="image" src="../../assets/weather.png">
+        <img class="image" src={{this.logo_weather_url}}>
         <div class="weather-text">{{this.weather_text}}</div>
       </div>
       <div class="separator"></div>
@@ -54,6 +54,10 @@
         <div class="text">{{this.wind}}</div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="days[days.length -1].status == 'red'" class="alert-pills">
+    <div class="text">"Don't forget to take your pills!"</div>
   </div>
 
   <div class="part3">
