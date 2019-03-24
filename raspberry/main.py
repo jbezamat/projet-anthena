@@ -51,9 +51,6 @@ if __name__ == '__main__':
 
             if status == 0:
                 begin_t = time.time() 
-                bool_requestr = False
-                bool_requestg = False
-                bool_requestb = False
                 GPIO.output(pin_ledv, GPIO.LOW) 
                 GPIO.output(pin_ledr, GPIO.LOW) 
                 if bool_requestb == False:   
@@ -84,7 +81,10 @@ if __name__ == '__main__':
                 GPIO.output(pin_ledv, GPIO.LOW)
                 GPIO.output(pin_ledr, GPIO.LOW)  
                 status = 0
-                merlin = True                      
+                merlin = True
+                bool_requestr = False
+                bool_requestg = False
+                bool_requestb = False                   
                  
     except KeyboardInterrupt:
         print('interrupted!')
