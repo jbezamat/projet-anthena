@@ -13,9 +13,9 @@
         <div class="text">"Heat Wave, be careful outside"</div>
       </div>
     </div>
-    <div class="alert-button">
-      <div>Besoin</div>
-      <div>d'Assistance?</div>
+    <div class="alert-button" (click)="clickAlert()">
+      <div>You Need</div>
+      <div>Help?</div>
     </div>
 
   </div>
@@ -40,7 +40,8 @@
 
     <div class="weather">
       <div class="logo">
-        <img class="image" src="../../assets/weather.png">
+        <img class="image" src={{this.logo_weather_url}}>
+        <div class="weather-text">{{this.weather_text}}</div>
       </div>
       <div class="separator"></div>
       <div class="temperature">
@@ -53,6 +54,10 @@
         <div class="text">{{this.wind}}</div>
       </div>
     </div>
+  </div>
+
+  <div *ngIf="days[days.length -1].status == 'red'" class="alert-pills">
+    <div class="text">"Don't forget to take your pills!"</div>
   </div>
 
   <div class="part3">
