@@ -27,12 +27,15 @@ pin_ledr = 13
 pin_in = 6
 
 GPIO.setup(pin_ledv, GPIO.OUT)
+GPIO.setup(pin_ledr, GPIO.OUT)
 GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 
 def button_callback(channel):
     global status
     print("Button was pushed!")
     status+=1
+    print(status)
+    time.sleep(0.5)
 
 
 if __name__ == '__main__':
