@@ -51,7 +51,9 @@ if __name__ == '__main__':
 
             if status == 0:
                 begin_t = time.time() 
-                bool_request = False
+                bool_requestr = False
+                bool_requestg = False
+                bool_requestb = False
                 GPIO.output(pin_ledv, GPIO.LOW) 
                 GPIO.output(pin_ledr, GPIO.LOW) 
                 if bool_requestb == False:   
