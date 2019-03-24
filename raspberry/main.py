@@ -3,21 +3,62 @@
 
 import RPi.GPIO as GPIO                 #bibliothèque RPi.GPIO
 import time                             #bibliothèque time
+# import requests 
+# API_ENDPOINT = "192.168.43.111:8080"
+# data = {'status':"close"} 
+
+#r = requests.post(url = API_ENDPOINT, data = data) 
+  
+# extracting response text  
+# pastebin_url = r.text 
+# print("The pastebin URL is:%s"%pastebin_url) 
+
 
 GPIO.setwarnings(False) 
 
 GPIO.setmode(GPIO.BCM)
 
-pin_led = 21
+status = 0 
+time_t = 0
+begin_t = 0
 
-GPIO.setup(pin_led, GPIO.OUT)
-GPIO.setup(6, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+pin_ledv = 5
+pin_ledr = 13
+pin_in = 6
+
+GPIO.setup(pin_ledv, GPIO.OUT)
+GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
+
+def button_callback(channel):
+    global status
+    print("Button was pushed!")
+    status+=1
+
 
 if __name__ == '__main__':
     print("Début du programme LED clignotante")
 
-    GPIO.output(pin_led, GPIO.HIGH)                               
-    while True :     
-        if GPIO.input(10) == GPIO.HIGH:
-            print("Button was pushed!")                                      
-            GPIO.output(pin_led, GPIO.LOW)                   
+    GPIO.add_event_detect(pin_in,GPIO.RISING,callback=button_callback)
+
+    GPIO.output(pin_ledv, GPIO.HIGH) 
+    begin_t = time.time()     
+    try:                         
+        while True :     
+            time_t = time.time()
+            if status == 0:
+                GPIO.output(pin_ledv, GPIO.LOW) 
+                GPIO.output(pin_ledr, GPIO.LOW) 
+            elif status == 1 and (time_t - begin_t) > 5 :
+                GPIO.output(pin_ledv, GPIO.HIGH)
+                GPIO.output(pin_ledr, GPIO.LOW) 
+            elif status == 1 and (time_t - begin_t) > 20:
+                GPIO.output(pin_ledv, GPIO.LOW)
+                GPIO.output(pin_ledr, GPIO.HIGH)   
+            elif status == 2:
+                GPIO.output(pin_ledv, GPIO.LOW)
+                GPIO.output(pin_ledr, GPIO.LOW)  
+                status = 0                      
+                 
+    except KeyboardInterrupt:
+        print('interrupted!')
+        GPIO.cleanup() # Clean up             
