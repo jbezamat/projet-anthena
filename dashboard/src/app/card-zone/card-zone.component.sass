@@ -59,7 +59,7 @@
       width : 80%
       overflow: hidden
       .text
-        font-size: calc(20px + 0.5vw)
+        font-size: calc(30px + 0.5vw)
         position: relative
         top: 50%
         transform: translateY(-50%)
@@ -79,7 +79,7 @@
     flex-direction: column
     justify-content: center
     align-items: center
-    font-size: 27px
+    font-size: 35px
 
 
 .part2
@@ -97,10 +97,12 @@
     display: flex
     .logo
       width: 33%
+      display: flex
+      flex-direction: column
       justify-content: center
       .image
         object-fit: contain
-        height: 100%
+        height: 80%
         margin: auto
         display: block
     .temperature
@@ -142,10 +144,15 @@
     display: flex
     .logo
       width: 33%
+      display: flex
+      flex-direction: column
       justify-content: center
+      .weather-text
+        font-size: calc(18px + 0.6vw)
+        text-align: center
       .image
         object-fit: contain
-        height: 100%
+        height: 80%
         margin : auto
         display: block
     .temperature
@@ -198,7 +205,6 @@
       font-size: calc(15px + 0.5vw)
       position: relative
       top: 50%
-      top: 50%
       transform: translateY(-50%)
       text-align: center
     .day-red
@@ -208,7 +214,17 @@
       transform: translateY(-50%)
       text-align: center
       border-radius: 50%
-      border: 1px solid red
+      border: 5px solid red
+      width: 60px
+      height : 60px
+    .day-green
+      font-size: calc(15px + 0.5vw)
+      position: relative
+      top: 50%
+      transform: translateY(-50%)
+      text-align: center
+      border-radius: 50%
+      border: 5px solid darkgreen
       width: 60px
       height : 60px
 
