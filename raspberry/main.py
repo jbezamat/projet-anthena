@@ -32,7 +32,7 @@ GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 merlin = False
 
 def button_callback(channel):
-    global status
+    global status, merlin
     if (merlin==False):
         print("Button was pushed!")
         status+=1
