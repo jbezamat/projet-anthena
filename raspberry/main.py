@@ -5,8 +5,6 @@ import RPi.GPIO as GPIO                 #bibliothèque RPi.GPIO
 import time                             #bibliothèque time
 import requests 
 API_ENDPOINT = "http://192.168.43.111:8080/pilulier"
-data = {'status':"alert"} 
-
 
 
 GPIO.setwarnings(False) 
@@ -25,7 +23,9 @@ GPIO.setup(pin_ledv, GPIO.OUT)
 GPIO.setup(pin_ledr, GPIO.OUT)
 GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 merlin = True
-bool_request = False
+bool_requestr = False
+bool_requestg = False
+bool_requestb = False
 
 def button_callback(channel):
     global status, merlin
@@ -44,33 +44,48 @@ if __name__ == '__main__':
     GPIO.output(pin_ledv, GPIO.HIGH) 
     begin_t = time.time()     
     try:                         
-        while True :     
+        while True : 
+            time.sleep(0.1)
             time_t = time.time()
             if GPIO.input(pin_in) == GPIO.LOW and merlin == True:
                 merlin = False
 
             if status == 0:
                 begin_t = time.time() 
-                bool_request = False
                 GPIO.output(pin_ledv, GPIO.LOW) 
                 GPIO.output(pin_ledr, GPIO.LOW) 
+                if bool_requestb == False:   
+                    try:
+                        r = requests.post(url = API_ENDPOINT, data = {'status':"blue"} ) 
+                    except:
+                        print("request failed")
+                    bool_requestb = True
             elif status == 1 and (time_t - begin_t) > 5 and (time_t - begin_t) <= 10:
                 GPIO.output(pin_ledv, GPIO.HIGH)
                 GPIO.output(pin_ledr, GPIO.LOW) 
+                if bool_requestg == False:   
+                    try:
+                        r = requests.post(url = API_ENDPOINT, data = {'status':"green"} ) 
+                    except:
+                        print("request failed")
+                    bool_requestg = True
             elif status == 1 and (time_t - begin_t) > 10:
                 GPIO.output(pin_ledv, GPIO.LOW)
                 GPIO.output(pin_ledr, GPIO.HIGH)
-                if bool_request == False:   
+                if bool_requestr == False:   
                     try:
-                        r = requests.post(url = API_ENDPOINT, data = data) 
+                        r = requests.post(url = API_ENDPOINT, data = {'status':"red"} ) 
                     except:
                         print("request failed")
-                    bool_request = True
+                    bool_requestr = True
             elif status == 2:
                 GPIO.output(pin_ledv, GPIO.LOW)
                 GPIO.output(pin_ledr, GPIO.LOW)  
                 status = 0
-                merlin = True                      
+                merlin = True
+                bool_requestr = False
+                bool_requestg = False
+                bool_requestb = False                   
                  
     except KeyboardInterrupt:
         print('interrupted!')
