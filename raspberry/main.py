@@ -3,15 +3,10 @@
 
 import RPi.GPIO as GPIO                 #bibliothèque RPi.GPIO
 import time                             #bibliothèque time
-# import requests 
-# API_ENDPOINT = "192.168.43.111:8080"
-# data = {'status':"close"} 
+import requests 
+API_ENDPOINT = "192.168.43.111:8080/pilulier"
+data = {'status':"alert"} 
 
-#r = requests.post(url = API_ENDPOINT, data = data) 
-  
-# extracting response text  
-# pastebin_url = r.text 
-# print("The pastebin URL is:%s"%pastebin_url) 
 
 
 GPIO.setwarnings(False) 
@@ -30,6 +25,7 @@ GPIO.setup(pin_ledv, GPIO.OUT)
 GPIO.setup(pin_ledr, GPIO.OUT)
 GPIO.setup(pin_in, GPIO.IN, pull_up_down=GPIO.PUD_DOWN)
 merlin = True
+bool_request = False
 
 def button_callback(channel):
     global status, merlin
@@ -37,7 +33,6 @@ def button_callback(channel):
         print("Button was pushed!")
         status+=1
         print(status)
-        time.sleep(0.5)
         merlin=True
 
 
@@ -56,14 +51,18 @@ if __name__ == '__main__':
 
             if status == 0:
                 begin_t = time.time() 
+                bool_request = False
                 GPIO.output(pin_ledv, GPIO.LOW) 
                 GPIO.output(pin_ledr, GPIO.LOW) 
-            elif status == 1 and (time_t - begin_t) > 10 and (time_t - begin_t) <= 20:
+            elif status == 1 and (time_t - begin_t) > 5 and (time_t - begin_t) <= 10:
                 GPIO.output(pin_ledv, GPIO.HIGH)
                 GPIO.output(pin_ledr, GPIO.LOW) 
-            elif status == 1 and (time_t - begin_t) > 20:
+            elif status == 1 and (time_t - begin_t) > 10:
                 GPIO.output(pin_ledv, GPIO.LOW)
-                GPIO.output(pin_ledr, GPIO.HIGH)   
+                GPIO.output(pin_ledr, GPIO.HIGH)
+                if bool_request == False:   
+                    r = requests.post(url = API_ENDPOINT, data = data) 
+                    bool_request = True
             elif status == 2:
                 GPIO.output(pin_ledv, GPIO.LOW)
                 GPIO.output(pin_ledr, GPIO.LOW)  
