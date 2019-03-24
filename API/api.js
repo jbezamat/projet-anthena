@@ -1,7 +1,7 @@
 // Import Node Modules
 let express = require('express')
-var request = require('request')
-var bodyParser = require('body-parser')
+let request = require('request')
+let bodyParser = require('body-parser')
 let server = express()
 
 // Templates motor
@@ -22,11 +22,16 @@ var allowCrossDomain = function(req, res, next){
 }
 server.use(allowCrossDomain);
 
+fct = require("./functions.js")
 
-
-
-
-
+data = {
+temperature: 23,
+humidity: 0,
+light: 0
+}
+status = {
+	status: "blue"
+};
 
 // START server
 const port = 8080;
