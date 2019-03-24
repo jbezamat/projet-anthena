@@ -44,7 +44,8 @@ if __name__ == '__main__':
     GPIO.output(pin_ledv, GPIO.HIGH) 
     begin_t = time.time()     
     try:                         
-        while True :     
+        while True : 
+            time.sleep(0.1)
             time_t = time.time()
             if GPIO.input(pin_in) == GPIO.LOW and merlin == True:
                 merlin = False
